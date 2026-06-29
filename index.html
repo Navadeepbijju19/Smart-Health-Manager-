@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <center><meta charset="UTF-8"></center>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarePulse | Healthcare Management Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <section id="auth-page" class="view-section">
+        <div class="login-container">
+            <h2>Healthcare Portal Login</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required placeholder="Enter your username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <div class="input-group">
+                    <label for="role">Portal Role</label>
+                    <select id="role">
+                        <option value="patient">Patient</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Login to Portal</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="patient-page" class="view-section hidden">
+        <header class="portal-header">
+            <h1>Patient Dashboard</h1>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </header>
+        <div class="portal-content grid-2">
+            <div class="card">
+                <h3>Book a Doctor Appointment</h3>
+                <form id="booking-form" onsubmit="bookAppointment(event)">
+                    <label>Select Department</label>
+                    <select id="dept"><option>Cardiology</option><option>Neurology</option><option>General Medicine</option></select>
+                    <label>Preferred Date</label>
+                    <input type="date" required>
+                    <button type="submit" class="btn-submit">Confirm Booking</button>
+                </form>
+            </div>
+            <div class="card">
+                <h3>AI Health Report Generator</h3>
+                <p>Click below to compile your current medical history into a downloadable overview report.</p>
+                <button class="btn-primary" onclick="generateReport()">Generate Medical Report</button>
+                <div id="report-output" class="report-box hidden"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="doctor-page" class="view-section hidden">
+        <header class="portal-header">
+            <h1>Doctor Consultation Portal</h1>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </header>
+        <div class="portal-content">
+            <div class="card">
+                <h3>Your Booked Appointments Today</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Patient Name</th><th>Time Slot</th><th>Condition/Reason</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>John Doe</td><td>09:30 AM</td><td>Routine Cardiac Checkup</td><td><span class="badge yellow">Pending</span></td></tr>
+                        <tr><td>Sarah Jenkins</td><td>11:15 AM</td><td>Chronic Migraine follow-up</td><td><span class="badge green">Confirmed</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="admin-page" class="view-section hidden">
+        <header class="portal-header">
+            <h1>System Administration</h1>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </header>
+        <div class="portal-content">
+            <div class="stats-grid">
+                <div class="stat-card"><h4>Total Doctors</h4><p class="stat-num" id="count-docs">24</p></div>
+                <div class="stat-card"><h4>Total Patients</h4><p class="stat-num" id="count-patients">1,420</p></div>
+                <div class="stat-card"><h4>Solved Cases</h4><p class="stat-num" id="count-cases">984</p></div>
+            </div>
+            <div class="grid-2">
+                <div class="card"><canvas id="adminChart"></canvas></div>
+                <div class="card">
+                    <h3>System Access Control List</h3>
+                    <p>Master overview of actively managed system assets.</p>
+                    <ul class="admin-list">
+                        <li><strong>Active Doctors:</strong> Dr. Aris (Cardio), Dr. Vance (Neuro)</li>
+                        <li><strong>Recent Patient Logins:</strong> P-10293, P-10294</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
