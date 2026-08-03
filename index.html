@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+ 
+  <header id="main-header" class="hidden">
+    <div class="logo">
+      <h2>🏥 HealthCare System</h2>
+    </div>
+    <div class="user-info">
+      <span id="user-display"></span>
+      <button onclick="logout()" class="btn btn-secondary">Logout</button>
+    </div>
+  </header>
+
+  <main id="app-container">
+
+
+    <section id="auth-section" class="view">
+      <div class="auth-card">
+        <h1>Healthcare Portal</h1>
+        
+        <div class="tab-buttons">
+          <button id="tab-login" class="tab-btn active" onclick="switchAuthTab('login')">Login</button>
+          <button id="tab-register" class="tab-btn" onclick="switchAuthTab('register')">Register</button>
+        </div>
+
+      
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Login As</label>
+            <select id="login-role" required>
+              <option value="patient">Patient</option>
+              <option value="doctor">Doctor</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="login-email" required placeholder="name@domain.com">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="login-password" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </form>
+
+       
+        <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
+          <div class="form-group">
+            <label>Register As</label>
+            <select id="reg-role" onchange="toggleSpecialization()" required>
+              <option value="patient">Patient</option>
+              <option value="doctor">Doctor</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="reg-name" required placeholder="Jane Doe">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="reg-email" required placeholder="jane@domain.com">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="reg-password" required placeholder="••••••••">
+          </div>
+          <div class="form-group hidden" id="spec-group">
+            <label>Medical Specialization</label>
+            <input type="text" id="reg-spec" placeholder="e.g. Cardiology, Pediatrics">
+          </div>
+          <button type="submit" class="btn btn-success btn-block">Register & Enter Platform</button>
+        </form>
+      </div>
+    </section>
+
+  
+    <section id="patient-view" class="view hidden">
+      <h2>Patient Dashboard</h2>
+      
+      <div class="dashboard-grid">
+        <div class="card">
+          <h3>Book Appointment</h3>
+          <form onsubmit="handleBookAppointment(event)">
+            <div class="form-group">
+              <label>Select Doctor</label>
+              <select id="book-doctor" required></select>
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="book-date" required>
+            </div>
+            <div class="form-group">
+              <label>Time</label>
+              <input type="time" id="book-time" required>
+            </div>
+            <div class="form-group">
+              <label>Reason for Visit</label>
+              <textarea id="book-reason" rows="3" required placeholder="Describe health concern..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Booking</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>My Appointments & Health Records</h3>
+          <div id="patient-appointments-list"></div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="doctor-view" class="view hidden">
+      <h2>Doctor Dashboard</h2>
+      <div class="card">
+        <h3>Booked Patient Appointments</h3>
+        <div id="doctor-appointments-list"></div>
+      </div>
+    </section>
+
+  
+    <section id="admin-view" class="view hidden">
+      <h2>Administrator Dashboard</h2>
+      
+   
+      <div class="stats-row">
+        <div class="stat-card">
+          <span class="stat-num" id="admin-doc-count">0</span>
+          <span class="stat-label">Total Doctors</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="admin-pat-count">0</span>
+          <span class="stat-label">Total Patients</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="admin-solved-count">0</span>
+          <span class="stat-label">Solved Cases</span>
+        </div>
+      </div>
+
+      <div class="dashboard-grid mt-20">
+        <div class="card">
+          <h3>Doctor Directory</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>ID</th><th>Name</th><th>Email</th><th>Specialization</th></tr>
+            </thead>
+            <tbody id="admin-doctors-table"></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3>Patient Directory</h3>
+          <table class="data-table">
+            <thead>
+              <tr><th>ID</th><th>Name</th><th>Email</th></tr>
+            </thead>
+            <tbody id="admin-patients-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="report-modal" class="modal hidden">
+    <div class="modal-content">
+      <div id="report-print-area">
+        <h2 class="text-center">🏥 Official Patient Health Report</h2>
+        <hr class="my-10">
+        <p><strong>Report Date:</strong> <span id="rep-date"></span></p>
+        <p><strong>Patient Name:</strong> <span id="rep-patient"></span></p>
+        <p><strong>Attending Doctor:</strong> <span id="rep-doctor"></span></p>
+        <p><strong>Appointment Date:</strong> <span id="rep-appt-date"></span></p>
+        <hr class="my-10">
+        <h4>Reason for Visit</h4>
+        <p id="rep-reason"></p>
+        <h4 class="mt-10">Diagnosis</h4>
+        <p id="rep-diagnosis"></p>
+        <h4 class="mt-10">Prescriptions & Medical Guidance</h4>
+        <p id="rep-prescriptions"></p>
+      </div>
+      <div class="modal-actions">
+        <button onclick="window.print()" class="btn btn-primary">Print / Save as PDF</button>
+        <button onclick="closeModal()" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
