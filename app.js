@@ -1,5 +1,5 @@
 
-const BASE_URL = '';
+const BASE_URL = 'https://smart-health-manager-19.onrender.com';
 
 let currentUser = null;
 
