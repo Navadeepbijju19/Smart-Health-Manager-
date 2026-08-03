@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Health Manager</title>
+    <!-- Chart.js Library for Administrator Metrics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-slate-50 font-sans text-slate-800">
 
+    <!-- Header Navigation -->
     <header class="bg-teal-600 text-white shadow-md p-4 flex justify-between items-center">
         <h1 class="text-xl font-bold flex items-center gap-2">🛡️ Smart Health Manager</h1>
         <div id="userInfo" class="hidden items-center gap-4">
@@ -105,7 +108,7 @@
                 </div>
             </div>
 
-            <div class="bg-gradient-to-r from-teal-800 to-cyan-900 text-white p-6 rounded-xl shadow-md ai-pulse-glow">
+            <div class="bg-gradient-to-r from-teal-800 to-cyan-900 text-white p-6 rounded-xl shadow-md">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-bold flex items-center gap-2">🧠 AI Patient Recovery Diagnostics</h3>
                     <button onclick="triggerAIReport()" class="bg-teal-500 hover:bg-teal-400 text-slate-900 px-4 py-1.5 rounded-lg text-sm font-bold transition">Generate Report</button>
@@ -150,6 +153,7 @@
 
     </main>
 
+    <!-- External Client Logic Script -->
     <script src="app.js"></script>
 </body>
 </html>
